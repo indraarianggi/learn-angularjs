@@ -1,0 +1,15 @@
+{
+   "name": "app",
+   "version": "0.0.1",
+   "description": "Learn AngularJS",
+   "dependencies": {
+      "express": "*"
+   },
+   "engine": "node >=0.6.x",
+   "scripts": {
+      "start": "node server.js"
+   },
+   "main": "server.js",
+   "author": "Indra Arianggi",
+   "homepage": "/"
+}
