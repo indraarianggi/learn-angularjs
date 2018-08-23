@@ -10,7 +10,23 @@ ninjaApp.run(function() { // fire when application run
 
 ninjaApp.controller('NinjaController', ['$scope', function($scope) {
     
-    $scope.message = "Helloo World!";
+    $scope.removeNinja = function(ninja) {
+        var removedNinja = $scope.ninjas.indexOf(ninja);
+        $scope.ninjas.splice(removedNinja, 1);
+    }
+
+    $scope.addNinja = function() {
+        $scope.ninjas.push({
+            name: $scope.newninja.name,
+            belt: $scope.newninja.belt,
+            rate: parseInt($scope.newninja.rate),
+            available: true
+        });
+
+        $scope.newninja.name = "";
+        $scope.newninja.belt = "";
+        $scope.newninja.rate = "";
+    }
 
     $scope.ninjas = [
         {
