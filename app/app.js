@@ -4,7 +4,8 @@ ninjaApp.config(['$routeProvider', function($routeProvider) { // fire before app
     
     $routeProvider
         .when('/home', {
-            templateUrl: 'views/home.html'
+            templateUrl: 'views/home.html',
+            controller: 'NinjaController'
         })
         .when('/directory', {
             templateUrl: 'views/directory.html',
@@ -20,7 +21,24 @@ ninjaApp.run(function() { // fire when application run
     
 });
 
-ninjaApp.controller('NinjaController', ['$scope', function($scope) {
+// custom directive
+ninjaApp.directive('randomNinja', [function(){
+
+    return {
+        restrict    : 'EA', // use directive in html file as Element (E) or Attribute (A)
+        scope       : {
+            ninjas  : '=',
+            title   : '='
+        },
+        templateUrl : 'views/random.html',
+        controller  : function($scope) {
+            $scope.random = Math.floor(Math.random() * 4);
+        }
+    };
+
+}]);
+
+ninjaApp.controller('NinjaController', ['$scope', '$http', function($scope, $http) {
     
     $scope.removeNinja = function(ninja) {
         var removedNinja = $scope.ninjas.indexOf(ninja);
@@ -40,31 +58,8 @@ ninjaApp.controller('NinjaController', ['$scope', function($scope) {
         $scope.newninja.rate = "";
     }
 
-    $scope.ninjas = [
-        {
-            name: 'Indra',
-            belt: 'Black',
-            rate: 100,
-            available: true
-        },
-        {
-            name: 'Arianggi',
-            belt: 'Green',
-            rate: 30,
-            available: false
-        },
-        {
-            name: 'Suryaatmaja',
-            belt: 'Orange',
-            rate: 10,
-            available: true
-        },
-        {
-            name: 'Candra',
-            belt: 'Yellow',
-            rate: 50,
-            available: false
-        }
-    ];
+    $http({method: 'GET', url: 'data/ninjas.json'}).then(function(ninjas) {
+        $scope.ninjas = ninjas.data;
+    });
 
 }]);
