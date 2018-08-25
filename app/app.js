@@ -1,4 +1,4 @@
-var ninjaApp = angular.module('ninjaAppModule', ['ngRoute']);
+var ninjaApp = angular.module('ninjaAppModule', ['ngRoute', 'ngAnimate']);
 
 ninjaApp.config(['$routeProvider', function($routeProvider) { // fire before application run
     
@@ -30,6 +30,8 @@ ninjaApp.directive('randomNinja', [function(){
             ninjas  : '=',
             title   : '='
         },
+        transclude  : true,
+        replace     : true,
         templateUrl : 'views/random.html',
         controller  : function($scope) {
             $scope.random = Math.floor(Math.random() * 4);
@@ -56,6 +58,10 @@ ninjaApp.controller('NinjaController', ['$scope', '$http', function($scope, $htt
         $scope.newninja.name = "";
         $scope.newninja.belt = "";
         $scope.newninja.rate = "";
+    }
+
+    $scope.removeAll = function() {
+        $scope.ninjas = [];
     }
 
     $http({method: 'GET', url: 'data/ninjas.json'}).then(function(ninjas) {
